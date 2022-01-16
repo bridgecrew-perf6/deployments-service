@@ -5,7 +5,7 @@
 __Rampup__
 
 - [x] Baseline typescript project
-- [ ] Simple rest endpoint using fastify (e.g ```status/```)
+- [x] Simple rest endpoint using fastify (e.g ```status/```)
 - [ ] API documentation mechanism
 - [ ] Testing platform (jest / mocha)
     - How about black boxes for the API?
@@ -35,3 +35,11 @@ To build the source code into the ```build/``` diectory run
 To run the compiled code which resides in ```build/``` run
 
     npm start
+
+## Usage 
+
+Assuming the endpoint is at ```localhost:3000```
+
+**Get Server Status**
+
+    curl localhost:3000/api/v1/status
