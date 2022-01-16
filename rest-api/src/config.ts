@@ -12,6 +12,10 @@ export const Host: string = process.env.DEPLOYMENTS_SERVICE_API_HOST || "localho
 // Port to listen on
 export const Port: number = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_API_PORT || "3000");
 
+// Determines whether to expose the documentation endpoint.
+// It is a detail, but the underlying mechanism is swagger.
+export const ExposeDocs: boolean = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_DOCS || "false").toLowerCase() === "true";
+
 // Detemines the enabled api versions served by the server.
 // Variable format is either "*" which indicates all or a comma (',') separated versions - e.g: v1, v2, v5.
 // This is probably an overkill, but this way we can easily deploy/scale different versions of the apis
