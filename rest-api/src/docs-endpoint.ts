@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 
-export function registerPlugin(host: string, server: FastifyInstance) {
+export function register(hostname: string, server: FastifyInstance) {
     server.register(fastifySwagger, {
         routePrefix: "/docs",
         swagger: {
@@ -10,7 +10,7 @@ export function registerPlugin(host: string, server: FastifyInstance) {
                 description: 'Restful API providing resource deployments resource management',
                 version: '0.0.0'
             },
-            host,
+            host: hostname,
             schemes: ['http'],
             consumes: ['application/json'],
             produces: ['application/json'],
@@ -21,8 +21,6 @@ export function registerPlugin(host: string, server: FastifyInstance) {
             docExpansion: 'full',
             deepLinking: false
         },
-        staticCSP: true,
-        transformStaticCSP: header => header,
         exposeRoute: true
     });
 }

@@ -1,30 +1,17 @@
-import fastify from "fastify";
+import {createServer, startListening} from './server';
 
+// Ideally, only entrypoints will use this
 import * as config from './config';
-import * as docsEndpoint from "./docs-endpoint";
-import registerRoutes from './register-routes';
 
-const server = fastify({
-    logger: config.Verbose,
-});
+function main() {
+    const server = createServer({
+        hostname: config.Host,
+        port: config.Port,
+        verbose: config.Verbose,
+        exposeDocs: config.ExposeDocs,
+    });
 
-if (config.ExposeDocs) {
-    docsEndpoint.registerPlugin(config.Host, server);
+    startListening(server);
 }
 
-registerRoutes(server);
-
-server.listen(config.Port, config.Host, (err, address) => {
-    if (err) {
-        server.log.error(err);
-        process.exit(1);
-    }
-    
-    if (config.Verbose) {
-        console.log(`Server is listening on address ${address}.`, config);
-    }
-
-    if (config.ExposeDocs) {
-        docsEndpoint.initializeOnListen(server);
-    }
-});
+main();

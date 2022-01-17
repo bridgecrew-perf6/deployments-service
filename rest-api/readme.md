@@ -7,8 +7,7 @@ __Rampup__
 - [x] Baseline typescript project
 - [x] Simple rest endpoint using fastify (e.g ```api/v1status/```)
 - [x] API documentation mechanism
-- [ ] Testing platform (jest / mocha)
-    - How about black boxes for the API?
+- [x] Testing platform (mocha)
 
 __API Implementation__
 

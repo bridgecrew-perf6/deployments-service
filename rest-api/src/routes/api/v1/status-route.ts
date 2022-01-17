@@ -1,24 +1,21 @@
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 
-
-
 export default async function (
     server: FastifyInstance,
-    options: FastifyPluginOptions,
 ) {
     const creationTime = new Date();
 
     server.addSchema({
         $id: "status/response",
-        type: 'object',
+        type: "object",
         required: ["message"],
         properties: {
-            message: { type: 'string' },
-            creationTime: { type: 'string', format: 'date' }
+            message: { type: "string" },
+            creationTime: { type: "string", format: "date" }
         }
     });
 
-    server.get<{}>('/status', {
+    server.get<{}>("/status", {
         schema: {
             response: {
                 200: {
