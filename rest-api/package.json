@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node -r dotenv/config ./build/index.js dotenv_config_path=environments/local.env",
-    "test": "mocha --require ts-node/register --recursive src/**/*.test.ts"
+    "test": "mocha --require ts-node/register --recursive src/**/*.test.ts",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "chai": "^4.3.4",
     "dotenv": "^14.1.0",
     "mocha": "^9.1.4",
+    "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
