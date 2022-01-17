@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginOptions } from "fastify";
+import { FastifyInstance } from 'fastify';
 
 export default async function (
     server: FastifyInstance,
@@ -6,26 +6,26 @@ export default async function (
     const creationTime = new Date();
 
     server.addSchema({
-        $id: "status/response",
-        type: "object",
-        required: ["message"],
+        $id: 'status/response',
+        type: 'object',
+        required: ['message'],
         properties: {
-            message: { type: "string" },
-            creationTime: { type: "string", format: "date" }
+            message: { type: 'string' },
+            creationTime: { type: 'string', format: 'date' }
         }
     });
 
-    server.get<{}>("/status", {
+    server.get<{}>('/status', {
         schema: {
             response: {
                 200: {
-                    $ref: "status/response"
+                    $ref: 'status/response'
                 }
             }
         }
     }, async (request, response) => {
         response.send({
-            message: "Everything seems good",
+            message: 'Everything seems good',
             creationTime,
         })
     });

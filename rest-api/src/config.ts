@@ -21,5 +21,5 @@ export const ExposeDocs: boolean = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_D
 // This is probably an overkill, but this way we can easily deploy/scale different versions of the apis
 // or to deprecate and obsolete as needed.
 export const EnabledApiVersions = (process.env.DEPLOYMENTS_SERVICE_API_VERSIONS || "*")
-    .replace(/\s/g,'')
+    .replace(/\s/g, '')
     .split(',');

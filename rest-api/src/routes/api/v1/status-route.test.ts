@@ -1,8 +1,8 @@
-import {assert} from 'chai';
+import { assert } from 'chai';
 import { createServer } from '../../../server';
 
 describe('api/v1/status route', () => {
-    it("should return valid response", async () => {
+    it('should return valid response', async () => {
         // Arrange
         const { instance } = createServer({
             hostname: 'localhost',
@@ -21,6 +21,6 @@ describe('api/v1/status route', () => {
         assert.equal(response.statusCode, 200);
 
         const body = response.json();
-        assert.hasAllKeys(body, ["message", "creationTime"]);
+        assert.hasAllKeys(body, ['message', 'creationTime']);
     })
 })

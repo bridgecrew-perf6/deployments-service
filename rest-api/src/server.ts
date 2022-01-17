@@ -1,7 +1,7 @@
-import fastify, { FastifyInstance } from "fastify";
+import fastify, { FastifyInstance } from 'fastify';
 
 import * as docsEndpoint from './docs-endpoint';
-import registerRoutes from "./register-routes";
+import registerRoutes from './register-routes';
 
 export interface ServerInfo {
     // Indiciates wether the server should provide extra information (For now, only in the for of logging)
@@ -45,8 +45,8 @@ export function createServer(info: ServerInfo): Server {
 
 export function startListening(server: Server) {
 
-    const {instance, info} = server;
-    const {port, hostname, verbose, exposeDocs} = info;
+    const { instance, info } = server;
+    const { port, hostname, verbose, exposeDocs } = info;
 
     instance.listen(port, hostname, (err, address) => {
         if (err) {
