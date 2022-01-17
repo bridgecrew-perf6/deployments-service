@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
-import statusRoute from './routes/api/v1/status-route.js';
+import statusRoute from './routes/api/v1/status-route';
 
-import { EnabledApiVersions } from './config.js';
+import { EnabledApiVersions } from './config';
 
 const isVersionEnabled = (version: string) => EnabledApiVersions.includes("*") || EnabledApiVersions.includes(version);
 
