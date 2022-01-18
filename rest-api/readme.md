@@ -12,10 +12,11 @@ __Rampup__
 __API Implementation__
 
 - [x] Implement ```Image``` Route at ```api/v1/image/```
-- [ ] Implement ```Deployment``` Route ```api/v1/deployment/```
+- [x] Implement ```Deployment``` Route ```api/v1/deployment/```
 
 __Refinement__
 
+- [ ] Implement hook to write to file on deployment creation
 - [ ] Implement an Authentication solution
 
 ## Project Layout
@@ -64,6 +65,12 @@ Assuming the endpoint is at ```localhost:3000```
 > Another Note - The k-combinations algorithm was taken from elsewhere, Not I am the writer
 
     curl 'localhost:3000/api/v1/image/combinations
+
+**Create new deployment**
+
+    curl -XPUT 'localhost:3000/api/v1/deployment' \
+    -H 'content-type: application/json' \
+    -d '{ "imageId": "specific-id" }'
 
 ## Concepts and general comments
 

@@ -14,11 +14,11 @@ const serverInfo: ServerInfo = {
     }
 }
 
-describe('api/v1/status route', () => {
+describe('api/v1/image route', () => {
     it('should insert new image', async () => {
         // Arrange
-
         const server = createServer(serverInfo);
+
         const image = {
             id: "some id",
             name: "some name",
@@ -45,6 +45,7 @@ describe('api/v1/status route', () => {
     it('should get existing image by id', async () => {
         // Arrange
         const server = createServer(serverInfo);
+        
         const image = {
             id: "specific id",
             name: "some name",
@@ -55,11 +56,7 @@ describe('api/v1/status route', () => {
             }
         }
 
-        await server.inject({
-            method: 'POST',
-            url: '/api/v1/image',
-            payload: image
-        });
+        await server.repository.upsertImage(image);
 
         // Act
         const response = await server.inject({
@@ -87,11 +84,7 @@ describe('api/v1/status route', () => {
             }
         }));
 
-        await Promise.all(images.map(image => server.inject({
-            method: 'POST',
-            url: '/api/v1/image',
-            payload: image
-        })));
+        await Promise.all(images.map(image => server.repository.upsertImage(image)));
 
         // Act
         const response = await server.inject({
@@ -121,11 +114,7 @@ describe('api/v1/status route', () => {
             }
         }));
 
-        await Promise.all(images.map(image => server.inject({
-            method: 'POST',
-            url: '/api/v1/image',
-            payload: image
-        })));
+        await Promise.all(images.map(image => server.repository.upsertImage(image)));
 
         // Act
         const response = await server.inject({
