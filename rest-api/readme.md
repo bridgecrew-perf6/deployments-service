@@ -11,7 +11,7 @@ __Rampup__
 
 __API Implementation__
 
-- [ ] Implement ```Image``` Route at ```api/v1/image/```
+- [x] Implement ```Image``` Route at ```api/v1/image/```
 - [ ] Implement ```Deployment``` Route ```api/v1/deployment/```
 
 __Refinement__
@@ -45,15 +45,51 @@ Assuming the endpoint is at ```localhost:3000```
 
 **Upsert an image, without metadata**
 
-    curl -XPOST 'localhost:3001/api/v1/image' \
+    curl -XPOST 'localhost:3000/api/v1/image' \
         -H 'content-type: application/json' \
         -d '{"id": "someid", "version": "someversion", "name": "somename", "repository": "somerepository"}'
 
-## Concepts
+**Get get image by id**
+
+    curl 'localhost:3000/api/v1/image/specific-id'
+
+**Get page of 4 images offsetted by 3**
+
+    curl 'localhost:3000/api/v1/image?offset=3&limit=4
+
+**Get images combinations**
+
+> Note - The api will return the image ids, not the images themselves
+
+> Another Note - The k-combinations algorithm was taken from elsewhere, Not I am the writer
+
+    curl 'localhost:3000/api/v1/image/combinations
+
+## Concepts and general comments
+
+### Route Schemas
+
+The schemas are defined close to usage (an owner in some sense).
+
+The attempt here is to have each resource owned by it's router.
+
+There are some upsides and some downsides
+
+Upsides
+
+1. Schemas are defined close to usage. i.e, organize by feature rather than by technique
+
+Downsides
+
+1. No centralization of the schemas
+1. In bigger systems, routes will need to know about schemas defined/owned by other routes which might cause some coherency issues in the organization
+
 
 ### Repository Pattern
 
 According to requirements, we want the storage layer to be implemented using [Mongo](https://docs.mongodb.com/).
+
+This creates overhead than just use ```fastify-mongodb``` and ```this.mongo.db.do_something``` (for example) but I strongly believe this is an important abstraction - "The dependencies should point towards the abstraction".
 
 We will use the Repository pattern to abstract the implementation from the usage for 2 main reasons
 
@@ -66,3 +102,7 @@ For now, we provide the abstraction but only implement what we use - which is th
 The ```MongoRepository``` is an implementation of the repository using a Mongo client.
 
 The ```MemoryRepository``` is an implementation of the repository using a simple in-memory data structure - no persitence at all.
+
+### Tests
+
+There are so many tests that can be made. I demonstrated core ones, not intended as a full suite.
