@@ -16,7 +16,7 @@ __API Implementation__
 
 __Refinement__
 
-- [ ] Implement hook to write to file on deployment creation
+- [x] Implement hook to write to file on deployment creation
 - [ ] Implement an Authentication solution
 
 ## Project Layout
@@ -109,6 +109,23 @@ For now, we provide the abstraction but only implement what we use - which is th
 The ```MongoRepository``` is an implementation of the repository using a Mongo client.
 
 The ```MemoryRepository``` is an implementation of the repository using a simple in-memory data structure - no persitence at all.
+
+### Writing to counts.txt file
+
+What we wanted to do
+
+1. When a deployment has been created
+2. Incremet the value inside counts.txt
+
+To do this there are couple of approaches, I chose a simple one that works well - It can have some performance impacts on some scenarios though.
+
+The first thing to note is that we need to handle system events. This is a good reason to introduce a local event bus to the system - Otherwise the router will be the entity to invoke filesystem manipulation, pretty bad. Using the event bus approach, we can bootstrap the logic in the server creation and have the logic decoupled from the events themselves. We can even consider having the event emission be in the repository instead of the router (I believe it's preferable but left it as is since currently there is no technical difference).
+
+Another benefit of the decopuling is that we won't do this IO in the route tests. We can, and should add tests to assert that the events are emitted, and have other tests to assert that the increment logic is correct.
+
+The other thing to note is possible race conditions. Take a scenario of the instances running on the same machine, attempting to increment the value of the same file - This operation is obviously not atomic. In the current solution we used a named mutex that is operated the the OS level and is cross processes. It can introduce performance issues (in this scenario there are probably bottlenecks before this).
+
+To summarize, the logic of incrementing the value is scoped inside a mutex lock/unlock and is triggered from the event bus.
 
 ### Tests
 

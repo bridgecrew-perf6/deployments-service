@@ -2,6 +2,7 @@ import {createServer, startListening} from './server';
 
 // Ideally, only entrypoints will use this
 import * as config from './config';
+import initializeDeploymentsCountWorker from './initialize-deployments-count-worker';
 
 function main() {
 
@@ -17,6 +18,8 @@ function main() {
             schema: config.RepositorySchema
         }
     });
+
+    initializeDeploymentsCountWorker(server, config.DeploymentsCountFilePath);
 
     startListening(server);
 }

@@ -57,6 +57,7 @@ export default async function (
         const image = await this.repository.getImageById(imageId);
         if (image) {
             await this.repository.createDeployment(request.body);
+            this.eventBus.emit("deployment-created");
             response.status(204);
         } else {
             response.status(400);

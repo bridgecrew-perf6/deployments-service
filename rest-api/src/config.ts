@@ -30,3 +30,6 @@ export const RepositorySchema: string = process.env.DEPLOYMENTS_SERVICE_REPOSITO
 export const EnabledApiVersions = (process.env.DEPLOYMENTS_SERVICE_API_VERSIONS || "*")
     .replace(/\s/g, '')
     .split(',');
+
+// A system path of where to store the deployments count
+export const DeploymentsCountFilePath = (process.env.DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH || "counts.txt")

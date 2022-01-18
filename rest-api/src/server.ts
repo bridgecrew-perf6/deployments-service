@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 
 import * as docsEndpoint from './docs-endpoint';
+import registerEventBus from './register-event-bus';
 
 import registerRepository from './register-repository';
 import registerRoutes from './register-routes';
@@ -44,6 +45,7 @@ export function createServer(info: ServerInfo): FastifyInstance {
         docsEndpoint.register(hostname, server);
     }
 
+    registerEventBus(server);
     registerRepository(server, repositoryType, repositoryInfo)
     registerRoutes(server)
 
