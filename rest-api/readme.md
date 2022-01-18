@@ -42,3 +42,21 @@ Assuming the endpoint is at ```localhost:3000```
 **Get Server Status**
 
     curl localhost:3000/api/v1/status
+
+## Concepts
+
+### Repository Pattern
+
+According to requirements, we want the storage layer to be implemented using [Mongo](https://docs.mongodb.com/).
+
+We will use the Repository pattern to abstract the implementation from the usage for 2 main reasons
+
+1. Decoupling. Allow ourselves to change/explore technologies in the future
+1. Tests. By abstracting the implementation, we can use different ones for testing.
+1. Design by contract. We want to design the capabilities independent of the technology
+
+For now, we provide the abstraction but only implement what we use - which is the ```MongoRepository``` and ```MemoryRepository```.
+
+The ```MongoRepository``` is an implementation of the repository using a Mongo client.
+
+The ```MemoryRepository``` is an implementation of the repository using a simple in-memory data structure - no persitence at all.

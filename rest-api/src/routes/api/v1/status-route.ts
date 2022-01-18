@@ -11,7 +11,8 @@ export default async function (
         required: ['message'],
         properties: {
             message: { type: 'string' },
-            creationTime: { type: 'string', format: 'date' }
+            creationTime: { type: 'string', format: 'date' },
+            repositoryType: {type: 'string'}
         }
     });
 
@@ -23,10 +24,11 @@ export default async function (
                 }
             }
         }
-    }, async (request, response) => {
+    }, async function(request, response) {
         response.send({
             message: 'Everything seems good',
             creationTime,
+            repositoryType: this.repository.getType()
         })
     });
 }

@@ -1,65 +1,72 @@
 import fastify, { FastifyInstance } from 'fastify';
 
 import * as docsEndpoint from './docs-endpoint';
+
+import registerRepository from './register-repository';
 import registerRoutes from './register-routes';
+import { RepositoryInfo, RepositoryType } from './repositories/repository';
+
+declare module 'fastify' {
+    interface FastifyInstance {
+        info: ServerInfo
+    }
+}
 
 export interface ServerInfo {
-    // Indiciates wether the server should provide extra information (For now, only in the for of logging)
     verbose: boolean
     port: number
     hostname: string
     exposeDocs: boolean
-}
-
-export interface Server {
-    info: ServerInfo
-    instance: FastifyInstance
+    repositoryType: RepositoryType
+    repositoryInfo: RepositoryInfo
 }
 
 /**
  * Create a new FastifyInstance
  */
-export function createServer(info: ServerInfo): Server {
+export function createServer(info: ServerInfo): FastifyInstance {
 
     const {
         verbose,
         exposeDocs,
-        hostname
+        hostname,
+        repositoryType,
+        repositoryInfo,
     } = info;
 
-    const instance = fastify({
-        logger: verbose
+    const server = fastify({
+        logger: verbose,
     });
 
+    server.decorate("info", info);
+
     if (exposeDocs) {
-        docsEndpoint.register(hostname, instance);
+        docsEndpoint.register(hostname, server);
     }
 
-    registerRoutes(instance)
+    registerRepository(server, repositoryType, repositoryInfo)
+    registerRoutes(server)
 
-    return {
-        instance,
-        info
-    };
+    return server;
 }
 
-export function startListening(server: Server) {
+export function startListening(server: FastifyInstance) {
 
-    const { instance, info } = server;
-    const { port, hostname, verbose, exposeDocs } = info;
+    const { port, hostname, verbose, exposeDocs } = server.info;
 
-    instance.listen(port, hostname, (err, address) => {
+    console.log("listening");
+    server.listen(port, hostname, (err, address) => {
         if (err) {
-            instance.log.error(err);
+            server.log.error(err);
             process.exit(1);
         }
 
         if (verbose) {
-            console.log(`Server is listening on address ${address}.`, info);
+            console.log(`Server is listening on address ${address}.`, server.info);
         }
 
         if (exposeDocs) {
-            docsEndpoint.initializeOnListen(instance);
+            docsEndpoint.initializeOnListen(server);
         }
     });
 }
