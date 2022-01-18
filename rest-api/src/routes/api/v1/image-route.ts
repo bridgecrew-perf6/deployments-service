@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { Image } from '../../../model';
-import { PaginationCriteria } from '../../../pagination';
+import { PaginationCriteria } from '../../../services/pagination';
 import { k_combinations } from '../../../services/combinations';
 
 const Schema = {

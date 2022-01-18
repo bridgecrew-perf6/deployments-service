@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { Image, Deployment } from "../model";
-import { paginator } from '../pagination';
-import { Repository, RepositoryType } from "./repository";
+import { Image, Deployment } from '../model';
+import { paginator } from '../services/pagination';
+import { Repository, RepositoryType } from './repository';
 
 interface StoredEntity {
     lastUpdateTime: number
@@ -30,7 +30,7 @@ export default class MemoryRepository implements Repository {
     }
 
     getType(): RepositoryType {
-        return "memory";
+        return 'memory';
     }
 
     getAllImageIds(): Promise<Set<string>> {
@@ -39,7 +39,7 @@ export default class MemoryRepository implements Repository {
 
     upsertImage(image: Image): Promise<Image> {
 
-        if (image.id === "") {
+        if (image.id === '') {
             image = {
                 ...image,
                 id: uuid()

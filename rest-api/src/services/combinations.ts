@@ -71,7 +71,7 @@
  *   k_combinations([], 0)
  *   -> []
  */
-export function k_combinations(set, k) {
+export function k_combinations<T>(set: T[], k: number): T[][] {
 	var i, j, combs, head, tailcombs;
 	
 	// There is no way to take e.g. sets of 5 elements from

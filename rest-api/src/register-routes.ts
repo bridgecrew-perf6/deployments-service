@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 
-import {Schema as PaginationSchema} from './pagination';
+import {Schema as PaginationSchema} from './services/pagination';
 import statusRoute from './routes/api/v1/status-route';
 import imageRoute from './routes/api/v1/image-route';
 
