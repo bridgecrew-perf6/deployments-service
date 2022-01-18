@@ -1,22 +1,23 @@
 import { assert } from 'chai';
 import { createServer, ServerInfo } from '../../../server';
 
-const serverInfo: ServerInfo = {
-    hostname: 'localhost',
-    port: 3000,
-    exposeDocs: false,
-    verbose: false,
-    repositoryType: "memory",
-    repositoryInfo: {
-        hostname: "n/a",
-        port: 0,
-        schema: "n/a"
-    }
-}
-
 describe('api/v1/status route', () => {
     it('should return valid response', async () => {
         // Arrange
+
+        const serverInfo: ServerInfo = {
+            hostname: 'localhost',
+            port: 3000,
+            exposeDocs: false,
+            verbose: false,
+            repositoryType: "memory",
+            repositoryInfo: {
+                hostname: "n/a",
+                port: 0,
+                schema: "n/a"
+            }
+        }
+
         const server = createServer(serverInfo);
 
         // Act

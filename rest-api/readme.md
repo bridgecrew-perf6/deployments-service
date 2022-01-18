@@ -43,6 +43,12 @@ Assuming the endpoint is at ```localhost:3000```
 
     curl localhost:3000/api/v1/status
 
+**Upsert an image, without metadata**
+
+    curl -XPOST 'localhost:3001/api/v1/image' \
+        -H 'content-type: application/json' \
+        -d '{"id": "someid", "version": "someversion", "name": "somename", "repository": "somerepository"}'
+
 ## Concepts
 
 ### Repository Pattern

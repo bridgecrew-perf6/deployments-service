@@ -1,3 +1,4 @@
+import { Deployment, Image } from "../model";
 import MemoryRepository from "./memory-repository";
 import MongoRepository from "./mongo-repository";
 
@@ -5,6 +6,15 @@ export type RepositoryType = "memory" | "mongo";
 
 export interface Repository {
     getType(): RepositoryType
+
+    upsertImage(image: Image): Promise<Image>;
+    getImageById(id: string): Promise<Image | null>;
+    getAllImages(offset: number, limit: number): Promise<Image[]>;
+    getAllImageIds(): Promise<Set<string>>;
+
+    createDeployment(deployment: Deployment): Promise<void>;
+    getAllDeployments(offset: number, limit: number): Promise<Deployment[]>;
+    countDeployments(): Promise<number>;
 }
 
 export interface RepositoryInfo {
