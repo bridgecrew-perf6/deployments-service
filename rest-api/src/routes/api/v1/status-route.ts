@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import StatusCode from 'http-status-codes';
 
 const Schema = {
     Status: {
@@ -27,7 +28,7 @@ export default async function (
     server.get<{ Reply: StatusReply }>('/status', {
         schema: {
             response: {
-                200: {
+                [StatusCode.OK]: {
                     $ref: 'status'
                 }
             }

@@ -13,6 +13,9 @@ declare module 'fastify' {
     }
 }
 
+/**
+ * Models the information regarding how should a server be constructed
+ */
 export interface ServerInfo {
     verbose: boolean
     port: number

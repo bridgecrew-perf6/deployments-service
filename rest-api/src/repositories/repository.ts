@@ -2,8 +2,17 @@ import { Deployment, Image } from "../model";
 import MemoryRepository from "./memory-repository";
 import MongoRepository from "./mongo-repository";
 
-export type RepositoryType = "memory" | "mongo";
+/**
+ * All known repository implementations
+ */
+export type RepositoryType = "memory"
+                           | "mongo";
 
+/**
+ * Our abstraction for what a repository needs to provide to the rest of the system.
+ * 
+ * It's client shouldn't be aware of the underlying implementation.
+ */
 export interface Repository {
     connect(): Promise<void>
 
@@ -15,8 +24,15 @@ export interface Repository {
     createDeployment(deployment: Deployment): Promise<void>;
     getAllDeployments(offset: number, limit: number): Promise<Deployment[]>;
     countDeployments(): Promise<number>;
+
+    // close?
 }
 
+/**
+ * Uniform information on repository initialization.
+ * 
+ * With better design we can have this tighter and specific to the repository types - E.g using a builder pattern.
+ */
 export interface RepositoryInfo {
     username: string
     password: string

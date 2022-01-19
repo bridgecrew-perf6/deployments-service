@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { Deployment } from '../../../model';
 import { PaginationCriteria } from '../../../services/pagination';
 import { BadRequestReply, NoContentReply } from '../../../services/generic-payloads';
+import StatusCode from 'http-status-codes';
 
 const Schema = {
     Deployment: {
@@ -44,10 +45,10 @@ export default async function (
                 $ref: 'model/deployment'
             },
             response: {
-                204: {
+                [StatusCode.NO_CONTENT]: {
                     
                 },
-                400: {
+                [StatusCode.NOT_FOUND]: {
                     $ref: "bad-request"
                 }
             }
@@ -58,12 +59,10 @@ export default async function (
         if (image) {
             await this.repository.createDeployment(request.body);
             this.eventBus.emit("deployment-created");
-            response.status(204);
+            response.status(StatusCode.NO_CONTENT);
         } else {
-            response.status(400);
-            response.send({
-                message: `No such image with id "${imageId}"`
-            })
+            response.status(StatusCode.NOT_FOUND);
+            response.send({ message: `No such image with id "${imageId}"` });
         }
     });
 
@@ -76,7 +75,7 @@ export default async function (
                 $ref: "pagination"
             },
             response: {
-                200: {
+                [StatusCode.OK]: {
                     $ref: "model/deployment-array"
                 }
             }
@@ -93,7 +92,7 @@ export default async function (
     server.get<{ Reply: DeploymentCountReply }>('/deployment/count', {
         schema: {
             response: {
-                200: {
+                [StatusCode.OK]: {
                     type: "object",
                     properties: {
                         count: {type: "number"}

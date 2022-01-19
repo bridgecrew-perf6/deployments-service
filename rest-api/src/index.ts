@@ -4,6 +4,11 @@ import {createServer, startListening} from './server';
 import * as config from './config';
 import initializeDeploymentsCountWorker from './initialize-deployments-count-worker';
 
+/**
+ * The entry point to the application.
+ * 
+ * Bootstraps a server and the appropriate workers according to configuration.
+ */
 async function main() {
 
     const server = await createServer({

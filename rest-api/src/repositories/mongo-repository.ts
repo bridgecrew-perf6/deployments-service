@@ -17,6 +17,8 @@ interface WithTimeAudit {
 type ImageEntity = WithTimeAudit & Image;
 type DeploymentEntity = WithTimeAudit & Deployment;
 
+// I am not sure that everything really needs to be unique application-wise,
+// but this is what I figured out from the PDF.
 const ImageSchema = new mongoose.Schema<ImageEntity>({
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },

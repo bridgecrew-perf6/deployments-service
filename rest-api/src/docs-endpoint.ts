@@ -1,6 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 
+/**
+ * Register the documentation endpoint onto a fastify server
+ */
 export function register(hostname: string, server: FastifyInstance) {
     server.register(fastifySwagger, {
         routePrefix: "/docs",

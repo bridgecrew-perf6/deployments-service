@@ -5,7 +5,7 @@
 __Rampup__
 
 - [x] Baseline typescript project
-- [x] Simple rest endpoint using fastify (e.g ```api/v1status/```)
+- [x] Simple rest endpoint using fastify (e.g ```api/v1/status/```)
 - [x] API documentation mechanism
 - [x] Testing platform (mocha)
 
@@ -19,10 +19,10 @@ __Refinement__
 - [x] Implement hook to write to file on deployment creation
 - [ ] Implement an Authentication solution
 
-## Project Layout
+__Left out__
 
-- _src/_ - Source code (typescript)
-- _build/_ - Compiled code (javascript)
+- [ ] Monitoring Infrastructure
+- [ ] Logging Infrastructure
 
 ## Build / Run
 
@@ -74,6 +74,22 @@ Assuming the endpoint is at ```localhost:3000```
 
 ## Concepts and general comments
 
+General guideline - Fastify and json-schema are new to me. I don't think that I capitalized on them the most elegantly, but my attempt was to isolate features from technologies, and features/technologies from one another. This approach will hopefuly prove good when improving the codebase (when learning more about those tools) and modifying/implementing features.
+
+### Models seperation
+
+I Chose to differentiate between different models for the (seemingly) same concepts. Meaning, If we take the ```Image``` model for example, we have multiple definitions for it
+
+1. Type definition - Used throughout the system
+1. Schema for the routes (json-schema)
+1. Schema for mongoose
+
+Those are not the same, Their similiarity is coincidential and is not a DRY violation, but a following of the Single Responsibility Principle.
+
+To prove the point, we can tell in the code that Mongo related code is only at ```mongo-repository```. Json serialization/validation only exists in the routers (Except some that are used by multiple routes so are externalized).
+
+From an architecture pov, the ```Image``` type model the core domain, json-schema's Schema and mongoose's schemas are supportive and are implementation details.
+
 ### Route Schemas
 
 The schemas are defined close to usage (an owner in some sense).
@@ -90,20 +106,6 @@ Downsides
 
 1. No centralization of the schemas
 1. In bigger systems, routes will need to know about schemas defined/owned by other routes which might cause some coherency issues in the organization
-
-### Models seperation
-
-I Chose to differentiate between different models for the (seemingly) same concepts. Meaning, If we take the ```Image``` model for example, we have multiple definitions for it
-
-1. Type definition - Used throughout the system
-1. Schema for the routes (json-schema)
-1. Schema for mongoose
-
-Those are not the same, Their similiarity is coincidential and is not a DRY violation, but a following of the Single Responsibility Principle.
-
-To prove the point, we can tell in the code that Mongo related code is only at ```mongo-repository```. Json serialization/validation only exists in the routers (Except some that are used by multiple routes so are externalized).
-
-From an architecture pov, the ```Image``` type model the core domain, json-schema's Schema and mongoose's schemas are supportive and are implementation details.
 
 ### Repository Pattern
 

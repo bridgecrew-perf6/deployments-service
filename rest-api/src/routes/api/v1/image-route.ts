@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { Image } from '../../../model';
 import { PaginationCriteria } from '../../../services/pagination';
 import { k_combinations } from '../../../services/combinations';
+import StatusCode from 'http-status-codes';
 
 const Schema = {
     Image: {
@@ -41,7 +42,7 @@ export default async function (
                 $ref: 'model/image'
             },
             response: {
-                200: {
+                [StatusCode.OK]: {
                     $ref: 'model/image'
                 }
             }
@@ -54,11 +55,10 @@ export default async function (
     server.get<{ Reply: Image, Params: { id: string } }>('/image/:id', {
         schema: {
             response: {
-                200: {
+                [StatusCode.OK]: {
                     $ref: 'model/image'
                 },
-                404: {
-                }
+                [StatusCode.NOT_FOUND]: { }
             }
         }
     }, async function (request, response) {
@@ -75,7 +75,7 @@ export default async function (
                 $ref: "pagination"
             },
             response: {
-                200: {
+                [StatusCode.OK]: {
                     $ref: "model/image-array"
                 }
             }
@@ -96,7 +96,7 @@ export default async function (
                 }
             },
             response: {
-                200: {
+                [StatusCode.OK]: {
                     type: "array",
                     items: {
                         type: "array",
