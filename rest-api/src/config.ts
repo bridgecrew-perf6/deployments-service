@@ -20,10 +20,10 @@ export const ExposeDocs = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_DOCS || "f
 // We abstract the repository interface from the implementation (mongo)
 export const RepositoryType = "mongo";
 export const RepositoryUser = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_USER || "test";
-export const RepositoryPassword = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_USER || "test"
+export const RepositoryPassword = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PASSWORD || "test"
 export const RepositoryHost = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_HOST || "localhost";
 export const RepositoryPort = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "27017");
-export const RepositorySchema = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "test";
+export const RepositorySchema = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_SCHEMA || "test";
 
 // Detemines the enabled api versions served by the server.
 // Variable format is either "*" which indicates all or a comma (',') separated versions - e.g: v1, v2, v5.
