@@ -25,7 +25,7 @@ describe('api/v1/deployment route', () => {
         });
 
         // Assert
-        assert.equal(response.statusCode, 400);
+        assert.equal(response.statusCode, 404);
         assert.deepEqual(response.json(), {
             message: `No such image with id "some id that does not exist"`
         })

@@ -72,6 +72,40 @@ Assuming the endpoint is at ```localhost:3000```
     -H 'content-type: application/json' \
     -d '{ "imageId": "specific-id" }'
 
+## Docker
+
+The container receives all available configurations through environment variables. Docker is docker and this scenario is no special - Still, some examples on how to run are below
+
+Build the image
+
+    # cwd is rest-api/
+    docker build -t tglanz/rest-api .
+
+Run the server using default configuration (with memory storage) which will receive remote request and will listen on port 4545
+
+    docker run --rm -p 3000:4545 \
+        -e DEPLOYMENTS_SERVICE_API_HOST=0.0.0.0 \
+        tglanz/rest-api
+
+
+Run the server at port 3000, listen on external requests and configure to use mogno as storage 
+
+    docker run --rm -p 3000:3000
+        -e DEPLOYMENTS_SERVICE_API_HOST=0.0.0.0 \
+        -e DEPLOYMENTS_SERVICE_REPOSITORY_TYPE=mongo \
+        -e DEPLOYMENTS_SERVICE_REPOSITORY_HOST=mongohost \
+        tglanz/rest-api
+
+### Compose
+
+Provided a ```docker-compose.yaml``` definition at the root of the project which ramps a mongo instance and 3 instances of the rest apis, with a mounted directory containing the ```counts.txt``` file. Ideally we could use the ```--scale``` feature to scale the rest-api but there are some issues in the current compose version and I didn't want to downgrade (related to the port allocation using ranges).
+
+To compose run
+
+    docker-compose up
+
+The 3 rest api instances will listen on ports 5000, 5001 and 5002 and the ```counts.txt``` will be located at ```mount/counts.txt``` and is pracitcally shared among the instances.
+
 ## Concepts and general comments
 
 General guideline - Fastify and json-schema are new to me. I don't think that I capitalized on them the most elegantly, but my attempt was to isolate features from technologies, and features/technologies from one another. This approach will hopefuly prove good when improving the codebase (when learning more about those tools) and modifying/implementing features.

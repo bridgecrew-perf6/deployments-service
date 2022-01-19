@@ -1,6 +1,15 @@
+import path from 'path';
+import fs from 'fs';
 import { FastifyInstance } from "fastify";
 import countFileIncrementor from "./services/count-file-incrementor";
 import systemExclusiveScope from "./services/system-exclusive-scope";
+
+function makeDirIfNotExists(filePath: string) {
+    const dirname = path.dirname(filePath);
+    if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname, { recursive: true });
+    }
+}
 
 /**
  * Bind a worker on the event bus to increment the counts file.
@@ -12,6 +21,7 @@ import systemExclusiveScope from "./services/system-exclusive-scope";
  * this which is receiving commands from a queue. Practically spooling the file.
  */
  export default function(server: FastifyInstance, filePath: string) {
+    makeDirIfNotExists(filePath);
     const incrementCountFile = countFileIncrementor(filePath);
     const exclusiveScope = systemExclusiveScope("deployments-service", incrementCountFile);
     server.eventBus.addListener("deployment-created", exclusiveScope);

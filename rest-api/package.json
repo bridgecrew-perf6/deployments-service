@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node -r dotenv/config ./build/index.js dotenv_config_path=environments/local.env",
+    "start": "node ./build/index.js",
+    "start:local": "node -r dotenv/config ./build/index.js dotenv_config_path=environments/local.env",
     "test": "mocha --require ts-node/register --recursive src/**/*.test.ts",
     "dev": "nodemon src/index.ts"
   },

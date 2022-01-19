@@ -38,6 +38,10 @@ export async function createServer(info: ServerInfo): Promise<FastifyInstance> {
         repositoryInfo,
     } = info;
 
+    if (verbose) {
+        logInfo(info);
+    }
+
     const server = fastify({
         logger: verbose,
     });
@@ -49,11 +53,20 @@ export async function createServer(info: ServerInfo): Promise<FastifyInstance> {
     }
 
     registerEventBus(server);
+
     await registerRepository(server, repositoryType, repositoryInfo)
     registerRoutes(server)
 
     return server;
 }
+
+const logInfo = (serverInfo: ServerInfo) => console.log({
+    ...serverInfo,
+    repositoryInfo: {
+        ...serverInfo.repositoryInfo,
+        password: "********"
+    }
+});
 
 export function startListening(server: FastifyInstance) {
 
@@ -66,13 +79,7 @@ export function startListening(server: FastifyInstance) {
         }
 
         if (verbose) {
-            console.log(`Server is listening on address ${address}.`, {
-                ...server.info,
-                repositoryInfo: {
-                    ...server.info.repositoryInfo,
-                    password: "********"
-                }
-            });
+            console.log(`Server is listening on address ${address}.`);
         }
 
         if (exposeDocs) {

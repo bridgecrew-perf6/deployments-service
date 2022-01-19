@@ -4,7 +4,7 @@
  */
 
 // Determines whether the server should be verbose
-export const Verbose = (process.env.DEPLOYMENTS_SERVICE_API_VERBOSE || "false").toLowerCase() === "true";
+export const Verbose = (process.env.DEPLOYMENTS_SERVICE_API_VERBOSE || "true").toLowerCase() === "true";
 
 // The hostname to listen on. Of course, use 127.0.0.1 for loopback
 export const Host = process.env.DEPLOYMENTS_SERVICE_API_HOST || "localhost";
@@ -18,7 +18,7 @@ export const ExposeDocs = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_DOCS || "f
 
 // Repository connection parameters.
 // We abstract the repository interface from the implementation (mongo)
-export const RepositoryType = "mongo";
+export const RepositoryType = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_TYPE || "mongo";
 export const RepositoryUser = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_USER || "test";
 export const RepositoryPassword = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PASSWORD || "test"
 export const RepositoryHost = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_HOST || "localhost";
@@ -34,4 +34,4 @@ export const EnabledApiVersions = (process.env.DEPLOYMENTS_SERVICE_API_VERSIONS 
     .split(',');
 
 // A system path of where to store the deployments count
-export const DeploymentsCountFilePath = (process.env.DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH || "counts.txt")
+export const DeploymentsCountFilePath = (process.env.DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH || "data/counts.txt")
