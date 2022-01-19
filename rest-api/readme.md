@@ -91,12 +91,25 @@ Downsides
 1. No centralization of the schemas
 1. In bigger systems, routes will need to know about schemas defined/owned by other routes which might cause some coherency issues in the organization
 
+### Models seperation
+
+I Chose to differentiate between different models for the (seemingly) same concepts. Meaning, If we take the ```Image``` model for example, we have multiple definitions for it
+
+1. Type definition - Used throughout the system
+1. Schema for the routes (json-schema)
+1. Schema for mongoose
+
+Those are not the same, Their similiarity is coincidential and is not a DRY violation, but a following of the Single Responsibility Principle.
+
+To prove the point, we can tell in the code that Mongo related code is only at ```mongo-repository```. Json serialization/validation only exists in the routers (Except some that are used by multiple routes so are externalized).
+
+From an architecture pov, the ```Image``` type model the core domain, json-schema's Schema and mongoose's schemas are supportive and are implementation details.
 
 ### Repository Pattern
 
 According to requirements, we want the storage layer to be implemented using [Mongo](https://docs.mongodb.com/).
 
-This creates overhead than just use ```fastify-mongodb``` and ```this.mongo.db.do_something``` (for example) but I strongly believe this is an important abstraction - "The dependencies should point towards the abstraction".
+Using this patter creates overhead than just use ```fastify-mongodb``` and ```this.mongo.db.do_something``` (for example) but I strongly believe this is an important abstraction - "The dependencies should point towards the abstraction".
 
 We will use the Repository pattern to abstract the implementation from the usage for 2 main reasons
 

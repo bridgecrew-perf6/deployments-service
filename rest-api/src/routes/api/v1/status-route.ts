@@ -1,5 +1,4 @@
 import { FastifyInstance } from 'fastify';
-import { RepositoryType } from '../../../repositories/repository';
 
 const Schema = {
     Status: {
@@ -9,7 +8,6 @@ const Schema = {
         properties: {
             message: { type: 'string' },
             creationTime: { type: 'string', format: 'date' },
-            repositoryType: { type: 'string' }
         }
     }
 }
@@ -17,7 +15,6 @@ const Schema = {
 interface StatusReply {
     message: string
     creationTime: Date
-    repositoryType: RepositoryType
 }
 
 export default async function (
@@ -38,8 +35,7 @@ export default async function (
     }, async function (_request, response) {
         response.send({
             message: 'Everything seems good',
-            creationTime,
-            repositoryType: this.repository.getType()
+            creationTime
         })
     });
 }

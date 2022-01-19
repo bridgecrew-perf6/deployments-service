@@ -9,7 +9,12 @@ declare module 'fastify' {
     }
 }
 
-export default function (server: FastifyInstance, repositoryType: RepositoryType, repositoryInfo: RepositoryInfo) {
+export default async function (
+    server: FastifyInstance,
+    repositoryType: RepositoryType,
+    repositoryInfo: RepositoryInfo | null
+) {
     const repository = createRepository(repositoryType, repositoryInfo);
+    await repository.connect();
     server.decorate("repository", repository);
 }

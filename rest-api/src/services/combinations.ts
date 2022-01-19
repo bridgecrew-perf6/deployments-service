@@ -77,7 +77,6 @@ export function k_combinations<T>(set: T[], k: number): T[][] {
 	// There is no way to take e.g. sets of 5 elements from
 	// a set of 4.
 	if (k > set.length || k <= 0) {
-		console.log("1");
 		return [];
 	}
 	

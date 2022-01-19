@@ -11,14 +11,10 @@ describe('api/v1/status route', () => {
             exposeDocs: false,
             verbose: false,
             repositoryType: "memory",
-            repositoryInfo: {
-                hostname: "n/a",
-                port: 0,
-                schema: "n/a"
-            }
+            repositoryInfo: null
         }
 
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         // Act
         const response = await server.inject({
@@ -30,6 +26,6 @@ describe('api/v1/status route', () => {
         assert.equal(response.statusCode, 200);
 
         const body = response.json();
-        assert.hasAllKeys(body, ['message', 'creationTime', 'repositoryType']);
+        assert.hasAllKeys(body, ['message', 'creationTime']);
     })
 })

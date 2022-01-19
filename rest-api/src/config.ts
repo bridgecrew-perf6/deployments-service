@@ -4,24 +4,26 @@
  */
 
 // Determines whether the server should be verbose
-export const Verbose: boolean = (process.env.DEPLOYMENTS_SERVICE_API_VERBOSE || "false").toLowerCase() === "true";
+export const Verbose = (process.env.DEPLOYMENTS_SERVICE_API_VERBOSE || "false").toLowerCase() === "true";
 
 // The hostname to listen on. Of course, use 127.0.0.1 for loopback
-export const Host: string = process.env.DEPLOYMENTS_SERVICE_API_HOST || "localhost";
+export const Host = process.env.DEPLOYMENTS_SERVICE_API_HOST || "localhost";
 
 // Port to listen on
-export const Port: number = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_API_PORT || "3000");
+export const Port = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_API_PORT || "3000");
 
 // Determines whether to expose the documentation endpoint.
 // It is a detail, but the underlying mechanism is swagger.
-export const ExposeDocs: boolean = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_DOCS || "false").toLowerCase() === "true";
+export const ExposeDocs = (process.env.DEPLOYMENTS_SERVICE_API_EXPOSE_DOCS || "false").toLowerCase() === "true";
 
 // Repository connection parameters.
-// We attempt to abstract the repositry interface from the implementation (monog)
-export const RepositoryType = "memory";
-export const RepositoryHost: string = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_HOST || "localhost";
-export const RepositoryPort: number = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "27017");
-export const RepositorySchema: string = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "deployment";
+// We abstract the repository interface from the implementation (mongo)
+export const RepositoryType = "mongo";
+export const RepositoryUser = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_USER || "test";
+export const RepositoryPassword = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_USER || "test"
+export const RepositoryHost = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_HOST || "localhost";
+export const RepositoryPort = Number.parseInt(process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "27017");
+export const RepositorySchema = process.env.DEPLOYMENTS_SERVICE_REPOSITORY_PORT || "test";
 
 // Detemines the enabled api versions served by the server.
 // Variable format is either "*" which indicates all or a comma (',') separated versions - e.g: v1, v2, v5.

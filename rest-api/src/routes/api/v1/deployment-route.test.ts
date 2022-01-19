@@ -7,17 +7,13 @@ const serverInfo: ServerInfo = {
     exposeDocs: false,
     verbose: false,
     repositoryType: "memory",
-    repositoryInfo: {
-        hostname: "n/a",
-        port: 0,
-        schema: "n/a"
-    }
+    repositoryInfo: null
 }
 
 describe('api/v1/deployment route', () => {
     it('create deployment for not existing image should fail with 400', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         // Act
         let response = await server.inject({
@@ -37,7 +33,7 @@ describe('api/v1/deployment route', () => {
 
     it('create multiple deployments for an existing image should all succeeed with 204', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
         server.repository.upsertImage({
             id: "specific-id",
             version: "some version",
@@ -68,7 +64,7 @@ describe('api/v1/deployment route', () => {
 
     it("count action should return 0 before any deployments have been created", async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         // Act
         const response = await server.inject({
@@ -85,7 +81,7 @@ describe('api/v1/deployment route', () => {
 
     it("count action should return 0 before any deployments have been created", async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         for (let idx = 0; idx < 10; ++idx) {
             await server.repository.createDeployment({
@@ -108,7 +104,7 @@ describe('api/v1/deployment route', () => {
 
     it('should get correct page of deployments', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         let deployments = [...Array(10)].map((_, index) => ({
             imageId: `${index}`,

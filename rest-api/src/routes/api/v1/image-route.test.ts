@@ -7,17 +7,13 @@ const serverInfo: ServerInfo = {
     exposeDocs: false,
     verbose: false,
     repositoryType: "memory",
-    repositoryInfo: {
-        hostname: "n/a",
-        port: 0,
-        schema: "n/a"
-    }
+    repositoryInfo: null
 }
 
 describe('api/v1/image route', () => {
     it('should insert new image', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         const image = {
             id: "some id",
@@ -44,7 +40,7 @@ describe('api/v1/image route', () => {
 
     it('should get existing image by id', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
         
         const image = {
             id: "specific id",
@@ -72,7 +68,7 @@ describe('api/v1/image route', () => {
 
     it('should get correct page of images', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         let images = [...Array(10)].map((_, index) => ({
             id: `${index}`,
@@ -102,7 +98,7 @@ describe('api/v1/image route', () => {
 
     it('should get correct combinations of 2', async () => {
         // Arrange
-        const server = createServer(serverInfo);
+        const server = await createServer(serverInfo);
 
         let images = [...Array(3)].map((_, index) => ({
             id: `${index}`,

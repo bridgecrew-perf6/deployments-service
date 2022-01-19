@@ -29,8 +29,8 @@ export default class MemoryRepository implements Repository {
         this.deployments = [];
     }
 
-    getType(): RepositoryType {
-        return 'memory';
+    connect(): Promise<void> {
+        return Promise.resolve();
     }
 
     getAllImageIds(): Promise<Set<string>> {
@@ -38,7 +38,6 @@ export default class MemoryRepository implements Repository {
     }
 
     upsertImage(image: Image): Promise<Image> {
-
         if (image.id === '') {
             image = {
                 ...image,

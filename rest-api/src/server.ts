@@ -19,13 +19,13 @@ export interface ServerInfo {
     hostname: string
     exposeDocs: boolean
     repositoryType: RepositoryType
-    repositoryInfo: RepositoryInfo
+    repositoryInfo: RepositoryInfo | null
 }
 
 /**
  * Create a new FastifyInstance
  */
-export function createServer(info: ServerInfo): FastifyInstance {
+export async function createServer(info: ServerInfo): Promise<FastifyInstance> {
 
     const {
         verbose,
@@ -46,7 +46,7 @@ export function createServer(info: ServerInfo): FastifyInstance {
     }
 
     registerEventBus(server);
-    registerRepository(server, repositoryType, repositoryInfo)
+    await registerRepository(server, repositoryType, repositoryInfo)
     registerRoutes(server)
 
     return server;
@@ -56,7 +56,6 @@ export function startListening(server: FastifyInstance) {
 
     const { port, hostname, verbose, exposeDocs } = server.info;
 
-    console.log("listening");
     server.listen(port, hostname, (err, address) => {
         if (err) {
             server.log.error(err);
@@ -64,7 +63,13 @@ export function startListening(server: FastifyInstance) {
         }
 
         if (verbose) {
-            console.log(`Server is listening on address ${address}.`, server.info);
+            console.log(`Server is listening on address ${address}.`, {
+                ...server.info,
+                repositoryInfo: {
+                    ...server.info.repositoryInfo,
+                    password: "********"
+                }
+            });
         }
 
         if (exposeDocs) {

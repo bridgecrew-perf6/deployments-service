@@ -4,15 +4,17 @@ import {createServer, startListening} from './server';
 import * as config from './config';
 import initializeDeploymentsCountWorker from './initialize-deployments-count-worker';
 
-function main() {
+async function main() {
 
-    const server = createServer({
+    const server = await createServer({
         hostname: config.Host,
         port: config.Port,
         verbose: config.Verbose,
         exposeDocs: config.ExposeDocs,
         repositoryType: config.RepositoryType,
         repositoryInfo: {
+            username: config.RepositoryUser,
+            password: config.RepositoryPassword,
             hostname: config.RepositoryHost,
             port: config.RepositoryPort,
             schema: config.RepositorySchema
@@ -24,4 +26,5 @@ function main() {
     startListening(server);
 }
 
-main();
+main()
+    .catch(console.error);
