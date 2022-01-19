@@ -1,4 +1,5 @@
+mount/
 rest-api/node_modules
 rest-api/build
 rest-api/.nyc_output
-rest-api/counts.txt
+rest-api/data/counts.txt

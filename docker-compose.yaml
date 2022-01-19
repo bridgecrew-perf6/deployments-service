@@ -1,0 +1,64 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:5.0.5
+    ports:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+  restapi1:
+    build: ./rest-api/
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - "5000:3000"
+    volumes:
+      - ${PWD}/mount:/var/lib/deployments-service
+    environment:
+      DEPLOYMENTS_SERVICE_API_HOST: 0.0.0.0
+      DEPLOYMENTS_SERVICE_REPOSITORY_TYPE: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_HOST: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_USER: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_PASSWORD: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_SCHEMA: main
+      DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH: /var/lib/deployments-service/counts.txt
+  restapi2:
+    build: ./rest-api/
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - "5001:3000"
+    volumes:
+      - ${PWD}/mount:/var/lib/deployments-service
+    environment:
+      DEPLOYMENTS_SERVICE_API_HOST: 0.0.0.0
+      DEPLOYMENTS_SERVICE_REPOSITORY_TYPE: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_HOST: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_USER: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_PASSWORD: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_SCHEMA: main
+      DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH: /var/lib/deployments-service/counts.txt
+  restapi3:
+    build: ./rest-api/
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - "5002:3000"
+    volumes:
+      - ${PWD}/mount:/var/lib/deployments-service
+    environment:
+      DEPLOYMENTS_SERVICE_API_HOST: 0.0.0.0
+      DEPLOYMENTS_SERVICE_REPOSITORY_TYPE: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_HOST: mongo
+      DEPLOYMENTS_SERVICE_REPOSITORY_USER: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_PASSWORD: root
+      DEPLOYMENTS_SERVICE_REPOSITORY_SCHEMA: main
+      DEPLOYMENTS_SERVICE_DEPLOYMENTS_COUNT_FILE_PATH: /var/lib/deployments-service/counts.txt
+  
