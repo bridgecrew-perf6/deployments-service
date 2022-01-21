@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { Image } from '../../../model';
 import { PaginationCriteria } from '../../../services/pagination';
-import { k_combinations } from '../../../services/combinations';
+import combinations from '../../../services/combinations';
 import StatusCode from 'http-status-codes';
 
 const Schema = {
@@ -109,7 +109,7 @@ export default async function (
         }
     }, async function (request, response) {
         const ids = await this.repository.getAllImageIds();
-        const combinations = k_combinations([...ids], request.query.length) as string[][]
-        response.send(combinations);
+        const ans = combinations([...ids], request.query.length) as string[][]
+        response.send(ans);
     })
 }
