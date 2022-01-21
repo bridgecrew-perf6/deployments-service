@@ -14,12 +14,7 @@ const Schema = {
             name: { type: 'string' },
             repository: { type: 'string' },
             version: { type: 'string' },
-            metadata: {
-                type: "object",
-                patternProperties: {
-                    ".*": { type: "string" }
-                }
-            }
+            metadata: { }
         },
     },
     ImageArray: {

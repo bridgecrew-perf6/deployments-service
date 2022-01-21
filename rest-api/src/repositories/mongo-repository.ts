@@ -61,20 +61,21 @@ export default class MongoRepository implements Repository {
     }
 
     async upsertImage(image: Image): Promise<Image> {
-        const entity = {
-            ...image,
-            lastUpdateTime: new Date()
-        };
+        let result = await ImageModel.updateOne({id: image.id}, [
+            {$set: image},
+            {$set: { lastUpdateTime: "$$NOW" }},
+            {$set: { metadata: {
+                $mergeObjects: ["$metadata", image.metadata]
+            }}}
+        ], {
+            upsert: true
+        });
 
-        // TODO: This is prone to rece condition bugs - Im sure there is a better way
-        const existing = await this.getImageById(image.id);
-        if (existing) {
-            entity.metadata = Object.assign(existing.metadata || {}, entity.metadata || {});
+        if (!result.acknowledged) {
+            throw new Error("Invalid update payload");
         }
 
-        await ImageModel.findOneAndUpdate({id: image.id}, entity, { upsert: true,  });
-
-        return entity;
+        return (await this.getImageById(image.id))!;
     }
 
     async getImageById(id: string): Promise<Image | null> {
@@ -88,12 +89,10 @@ export default class MongoRepository implements Repository {
     }
 
     async createDeployment(deployment: Deployment): Promise<void> {
-        const entity = {
+        await DeploymentModel.updateOne({
             ...deployment,
             lastUpdateTime: new Date()
-        };
-
-        await DeploymentModel.create(entity);
+        });
     }
 
     async getAllDeployments(offset: number, limit: number): Promise<Deployment[]> {
